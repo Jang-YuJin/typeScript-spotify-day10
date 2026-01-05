@@ -1,22 +1,20 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import './SearchResultList.style.css'
 import { Track } from '../../../models/track';
 import { Button, Table, TableBody, TableCell, TableRow, Typography, useMediaQuery } from '@mui/material';
-import Loading from '../../../common/components/loading/Loading';
 
 interface SearchResultListProps {
-    list: Track[];
-    ref: (node?: Element | null | undefined) => void;
-    isFetchingNextPage: boolean;
+    track: Track;
 }
 
-const SearchResultList = ({list, ref, isFetchingNextPage}: SearchResultListProps) => {
+const SearchResultList = forwardRef<HTMLTableRowElement, SearchResultListProps>(
+  ({ track }, ref) => {
   const isMobile = useMediaQuery("(max-width:767px)");
 
   return (
-    <TableBody className='searchResultTable'>
-      {list.map((track, index) => (
-        <TableRow key={index}>
+    // <TableBody className='searchResultTable'>
+      // {list.map((track, index) => (
+        <TableRow ref={ref}>
           <TableCell>
             <span className='searchResultImgContainer'>
               <img className='searchResultImg' src={track.album?.images[0].url ?? '/noimg.png'}></img>
@@ -31,10 +29,10 @@ const SearchResultList = ({list, ref, isFetchingNextPage}: SearchResultListProps
               <Button variant='outlined'>추가</Button>
             </TableCell>
         </TableRow>
-      ))}
-      <div ref={ref}>{isFetchingNextPage && <Loading></Loading>}</div>
-    </TableBody>
+      // ))}
+    // </TableBody>
   )
 }
+);
 
 export default SearchResultList
